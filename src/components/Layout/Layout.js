@@ -7,7 +7,7 @@ import SideDrawer from '../Navigation/SIdeDrawer/SideDrawer';
 
 class Layout extends Component {
   state = {
-    showSideDrawer: true
+    showSideDrawer: false
   }
 
   sideDrawerClosedHandler = () => {
@@ -16,17 +16,29 @@ class Layout extends Component {
     })
   }
 
-  // showSideDrawer = () => {
-  //   this.setState({
-  //     showSideDrawer: true
-  //   })
-  // }
+  sideDrawerToggleHandler = () => {
+    // let sideDrawerClick = this.state.showSideDrawer
+    // this.setState({
+    //   showSideDrawer: !sideDrawerClick
+    // })
+    this.setState((prevState) => {
+      return {showSideDrawer: !prevState.showSideDrawer}
+    })
+  }
 
   render() {
     return (
       <Aux>
-        <Toolbar />
-        <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerClosedHandler}/>
+        {/*Toolbar gets passed the sideDrawerToggleHandler as a 'drawerToggleClicked' prop, which is then passed to DrawerToggle 
+        as a 'click' prop. DrawerToggle then fires the 'click' prop with an onClick event */}
+        <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler}/>
+        {/*SideDrawer gets passed the showSideDrawer state which is a boolean and the SideDrawerClosedHandler as a 'close; prop
+        which is then passed to BackDrop as an 'open' boolean and a 'closed' prop respectively.
+        Backdrop's show property then acts according to the state of the 'open' boolean, and fires the 'closed' prop via it's onClick event
+         */}
+        <SideDrawer 
+          open={this.state.showSideDrawer} 
+          closed={this.sideDrawerClosedHandler}/>
         <main className={classes.Content}>
           {this.props.children}
         </main>
