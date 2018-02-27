@@ -16,7 +16,9 @@ class Modal extends Component {
    We could have used PureComponent, but since it does more checks than we want to, we're manually doing the checks.
    */
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.show !== this.props.show
+    // include check for when props of children have changed,
+    // to show loading state (and spinner) for order component which is a child of modal comp
+    return nextProps.show !== this.props.show || nextProps.children !== this.props.children
   }
 
 // re-rendering checks
