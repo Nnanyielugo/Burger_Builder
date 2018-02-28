@@ -1,0 +1,13 @@
+.ingredientErr {
+  margin: 50% 30%;
+  font-size: 20px;
+  position: relative;
+  color: red;
+}
+
+@media (min-width: 950px) {
+  .ingredientErr {
+    margin: 25% 30%;
+  }
+}
+

@@ -11,17 +11,25 @@ const withErrorHandler = (WrappedComponent, axios) => {
     state = {
       error: null
     }
-    componentDidMount() {
-      // clear error on subsequesnt requests
-      axios.interceptors.request.use(req => {
+
+    componentWillMount() {
+      // clear error on subsequent requests
+      this.requestInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null})
         return req;
       })
       // set error state and assign it to error message
       // axios will be included in the higher=order wrapping on burgerBuilder comp
-      axios.interceptors.response.use(res => res, error => {
+      this.responseInterceptor = axios.interceptors.response.use(res => res, error => {
           this.setState({error: error})
       })
+    }
+
+    // unmount interceptors when it isn't required to avoid memory leaks and undesired side effects
+    componentWillUnmount(){
+      // eject interceptors on unmount
+      axios.interceptors.request.eject(this.requestInterceptor);
+      axios.interceptors.response.eject(this.responseInterceptor);
     }
 
     errorConfirmedHandler = () => {
@@ -32,8 +40,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
       return (
         <Aux>
           <Modal show={this.state.error} modalClosed={this.errorConfirmedHandler}>
-            Something went wrong!
-            <br />
             {this.state.error ? this.state.error.message : null}
           </Modal>
           <WrappedComponent {...this.props} />
