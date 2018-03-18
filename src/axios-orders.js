@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  // set baseUrl to firebase api base enspoint
+  // set baseUrl to firebase api base endpoint
   baseURL: 'https://react-burger-96363.firebaseio.com/'
 });
 
