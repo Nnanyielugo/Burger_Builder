@@ -9,5 +9,7 @@ export {
         fetchOrders
                 } from './orders';
 export { 
-        auth
+        auth,
+        logout,
+        setAuthRedirect
                 } from './auth';

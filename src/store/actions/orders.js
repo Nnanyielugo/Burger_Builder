@@ -22,10 +22,10 @@ export const purchaseBurgerStart = () => {
   }
 };
 
-export const purchaseBurger = orderData => {
+export const purchaseBurger = (orderData, token) => {
   return dispatch => {
     dispatch(purchaseBurgerStart())
-    axios.post('/orders.json', orderData)
+    axios.post('/orders.json?auth=' + token, orderData)
       .then(response => {
         console.log(response);
         dispatch(purchaseBurgerSuccess(response.data.name, orderData))
@@ -62,7 +62,7 @@ export const fetchOrdersStart = () => {
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
   // transform object recieved from database into array
@@ -70,7 +70,7 @@ export const fetchOrders = () => {
   // and pushing each object in to the array.
   // in order to preserve the id of the object from the api, instead of pushing the objects into the array,
   // we push a copy of that object using the spread operator, and add the property id which is set to the key
-    axios.get('/orders.json')
+    axios.get('/orders.json?auth=' + token)
       .then(res => {
         const fetchedOrders = [];
         for (let key in res.data) {
