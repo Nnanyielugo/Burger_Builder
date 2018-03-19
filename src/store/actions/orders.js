@@ -62,15 +62,16 @@ export const fetchOrdersStart = () => {
   };
 };
 
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
+    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
   // transform object recieved from database into array
   // by setting up an empty array object, looping through the db response,
   // and pushing each object in to the array.
   // in order to preserve the id of the object from the api, instead of pushing the objects into the array,
   // we push a copy of that object using the spread operator, and add the property id which is set to the key
-    axios.get('/orders.json?auth=' + token)
+    axios.get('/orders.json' + queryParams)
       .then(res => {
         const fetchedOrders = [];
         for (let key in res.data) {
